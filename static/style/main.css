@@ -47,3 +47,7 @@ input:focus {
     text-align: center;
     padding: 10px 20px;
 }
+
+.btn-nav {
+    margin-right: 10px;
+}

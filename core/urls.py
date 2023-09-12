@@ -18,7 +18,7 @@ else:
 
 urlpatterns = [
     path(f'{ADMIN_DIRECTORY}/', admin.site.urls),
-    path('account/', include('account.urls')),
+    path('', include('account.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
