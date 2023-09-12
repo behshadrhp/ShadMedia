@@ -111,7 +111,7 @@ AUTHENTICATION_BACKENDS = [
 AXES_FAILURE_LIMIT: 3 # how many times a user can fail a login
 AXES_COOLOFF_TIME: 2 # Wait 2 hours before attempting to login again
 AXES_RESET_ON_SUCCESS = True
-# AXES_LOCKOUT_TEMPLATE = 'account-locked.html' --> if need -> enable
+AXES_LOCKOUT_TEMPLATE = 'account/account-locked.html'
 
 # Jazzmin settings configuration
 JAZZMIN_SETTINGS = jazzmin_settings

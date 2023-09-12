@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% block title %}Account Locked{% endblock title %}
+
+{% block content %}
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body text-center">
+            <h2 class="card-title">Account Locked</h2>
+            <p class="card-text">Your account has been locked. Please contact support for assistance.</p>
+            <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

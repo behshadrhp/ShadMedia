@@ -23,7 +23,7 @@
           <button class="btn btn-secondary btn-nav" disabled>{{ username }}</button>
           <a href="{% url 'logout' %}"><button class="btn btn-danger btn-nav">Logout</button></a>
         {% else %}
-          <a href="#"><button class="btn btn-primary btn-nav">Register</button></a>
+          <a href="{% url 'register' %}"><button class="btn btn-primary btn-nav">Register</button></a>
           <a href="{% url 'login' %}"><button class="btn btn-secondary btn-nav">Login</button></a>
         {% endif %}
       </div>

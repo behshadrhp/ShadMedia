@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 
 
 class HomeView(View):
@@ -16,7 +16,34 @@ class HomeView(View):
         return render(request, 'home.html', context)
 
 
-class AuthenticationView(View):
+class RegisterView(View):
+    '''This class is for Authentication Register Account.'''
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            form = RegisterForm()
+
+            context = {'form': form}
+            return render(request, 'account/register.html', context)
+        else:
+            return redirect('home')
+
+    def post(self, request):
+        if not request.user.is_authenticated:
+            form = RegisterForm(request.POST)
+
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Well done, created account!')
+                messages.info(request, 'Login with your account')
+                return redirect('login')
+
+            context = {'form': form}
+            return render(request, 'account/register.html', context)
+        else:
+            return redirect('home')
+
+class LoginView(View):
     '''This class is for Authentication Login Account.'''
 
     def get(self, request):
@@ -48,6 +75,7 @@ class AuthenticationView(View):
                     else:
                         messages.info(request, 'Your account is disable!')
                 else:
+                    print(user_authentication)
                     messages.error(request, 'Oh snap! Information invalid , try again.')
 
             context = {'form': form}
