@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+from django.contrib import messages
+
 # jazzmin imported settings configuration
 from utils.jazzmin_settings import jazzmin_settings
 
@@ -139,3 +141,12 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 # TimeOut system
 TIMEOUT = 300
+
+#  Message Tag
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}

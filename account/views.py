@@ -1,6 +1,6 @@
 from django.views import View
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
 from .forms import LoginForm
@@ -11,19 +11,12 @@ class AuthenticationView(View):
 
     def get(self, request):
         form = LoginForm()
-        successfully = False
-        disable = False
-        invalid = False
 
-        context = {'form': form, 'successfully': successfully, 'disable': disable, 'invalid': invalid}
+        context = {'form': form}
         return render(request, 'account/login.html', context)
 
     def post(self, request):
         form = LoginForm(request.POST)
-
-        successfully = False
-        disable = False
-        invalid = False
 
         if form.is_valid():
             cd = form.cleaned_data
@@ -36,11 +29,11 @@ class AuthenticationView(View):
             if user_authentication is not None:
                 if user_authentication.is_active:
                     login(request, user_authentication)
-                    successfully = True
+                    messages.success(request, 'Well done, login is successfully')
                 else:
-                    disable = True
+                    messages.info(request, 'Your account is disable!')
             else:
-                invalid = True
+                messages.error(request, 'Oh snap! Information invalid , try again.')
 
-        context = {'form': form, 'successfully': successfully, 'disable': disable, 'invalid': invalid}
+        context = {'form': form}
         return render(request, 'account/login.html', context)   

@@ -5,23 +5,6 @@
 {% block content %}
 
 <div class="container mt-5">
-    {% if successfully %}
-    <div class="alert alert-dismissible alert-success">
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    <strong>Well done!</strong> login is successfully</a>.
-    </div>
-    {% elif disable %}
-    <div class="alert alert-dismissible alert-warning">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <h4 class="alert-heading">Warning!</h4>
-        <p class="mb-0">your account is disable</p>
-    </div>
-    {% elif invalid %}
-    <div class="alert alert-dismissible alert-danger">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>Oh snap!</strong> Information invalid , try again.
-    </div>
-    {% endif %}
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
