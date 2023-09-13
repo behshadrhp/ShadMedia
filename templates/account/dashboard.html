@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+      <div class="position-sticky">
+        <!-- Logo and Site Name -->
+        <div class="py-4 text-center">
+          <h2>BookShare</h2>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">
+              <i class="fas fa-home"></i>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="fas fa-book"></i>
+              My Books
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="fas fa-user"></i>
+              Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="fas fa-cogs"></i>
+              Settings
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <!-- User Information Section -->
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Welcome, [Username]</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <button type="button" class="btn btn-primary">
+            Add Book
+          </button>
+        </div>
+      </div>
+
+      <!-- About Section -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h2 class="card-title">About the Site</h2>
+              <p class="card-text">
+                BookShare is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Books Section -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <h2>My Books</h2>
+          <!-- Add content related to user's books -->
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock content %}

@@ -2,6 +2,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .forms import LoginForm, RegisterForm
 
@@ -10,10 +11,19 @@ class HomeView(View):
     '''This class is for return home page.'''
 
     def get(self, request):
-        username = request.user.get_username()
-
-        context = {'username': username}
+        context = {}
         return render(request, 'home.html', context)
+
+
+class DashboardView(View):
+    '''This class is for Dashboard panel.'''
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            context = {'section': 'dashboard'}
+            return render(request, 'account/dashboard.html', context)
+        else:
+            return redirect('login')
 
 
 class RegisterView(View):
@@ -71,7 +81,7 @@ class LoginView(View):
                     if user_authentication.is_active:
                         login(request, user_authentication)
                         messages.success(request, 'Well done, login is successfully')
-                        return redirect('home')
+                        return redirect('dashboard')
                     else:
                         messages.info(request, 'Your account is disable!')
                 else:
