@@ -11,16 +11,22 @@
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Account</a>
-        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">Account</a>
+          </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="#">About</a>
         </li>
       </ul>
       <div id="userActions" class="d-flex">
         {% if user.is_authenticated %}
-          <button class="btn btn-secondary btn-nav" disabled>{{ username }}</button>
+          <button class="btn btn-secondary btn-nav" disabled>{{ user.get_username }}</button>
           <a href="{% url 'logout' %}"><button class="btn btn-danger btn-nav">Logout</button></a>
         {% else %}
           <a href="{% url 'register' %}"><button class="btn btn-primary btn-nav">Register</button></a>
