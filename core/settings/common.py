@@ -6,6 +6,11 @@ from django.contrib import messages
 # jazzmin imported settings configuration
 from utils.jazzmin_settings import jazzmin_settings
 
+from dotenv import load_dotenv
+
+# Loading environment variable's
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
