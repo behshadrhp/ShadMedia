@@ -1,7 +1,8 @@
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
 from .forms import LoginForm, RegisterForm
@@ -106,3 +107,29 @@ class LogoutView(View):
             return render(request, 'account/logout.html', context)
         else:
             return redirect('home')
+
+
+class PasswordChangeView(View):
+    '''This class is for change password user account.'''
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            form = PasswordChangeForm(request.user)
+
+            context = {'form': form}
+            return render(request, 'account/password_change.html', context)
+        else:
+            return redirect('login')
+
+    def post(self, request):
+        if request.user.is_authenticated:
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('dashboard')
+            else:
+                messages.error(request, 'Please correct the error  below')
+        else:
+            return redirect('login')
