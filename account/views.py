@@ -44,10 +44,32 @@ class RegisterView(View):
             form = RegisterForm(request.POST)
 
             if form.is_valid():
-                form.save()
+                # create new user but not save in database !
+                new_user = form.save(commit=False)
+                # set the chosen password
+                new_user.set_password(form.cleaned_data['password2'])
+                # save user
+                new_user.save()
                 messages.success(request, 'Well done, created account!')
-                messages.info(request, 'Login with your account')
-                return redirect('login')
+
+                # login to account
+                cd = form.cleaned_data
+                user_authentication = authenticate(
+                    request,
+                    username=cd['username'],
+                    password=cd['password']
+                )
+                if user_authentication is not None:
+                    if user_authentication.is_active:
+                        login(request, user_authentication)
+                        messages.info(request, 'Welcome to dashboard panel')
+                        return redirect('dashboard')
+                    else:
+                        messages.info(request, 'Your account is disable!')
+                else:
+                    print(user_authentication)
+                    messages.error(request, 'Oh snap! Information invalid , try again.')
+                    return redirect('login')
 
             context = {'form': form}
             return render(request, 'account/register.html', context)
@@ -81,7 +103,7 @@ class LoginView(View):
                 if user_authentication is not None:
                     if user_authentication.is_active:
                         login(request, user_authentication)
-                        messages.success(request, 'Well done, login is successfully')
+                        messages.success(request, 'Welcome to dashboard panel')
                         return redirect('dashboard')
                     else:
                         messages.info(request, 'Your account is disable!')
