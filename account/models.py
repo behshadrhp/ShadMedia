@@ -23,3 +23,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    def save(self, *args, **kwargs):
+        if self.id:
+            existing = Profile.objects.filter(id=self.id).first()
+            if existing:
+                if existing.avatar != self.avatar and 'img/' not in existing.avatar.name:
+                    existing.avatar.delete(save=False)
+            
+        super().save(*args, **kwargs)

@@ -37,14 +37,14 @@ class ProfileView(View):
         return render(request, 'account/profile.html', context)
 
     def post(self, request):
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST, request.FILES)
 
         if form.is_valid():
             # dont save -> apply change
             profile = form.save(commit=False)
             # apply change avatar
             profile = request.user.profile
-            profile.avatar = form.cleaned_data['avatar']
+            profile.avatar = request.FILES['avatar']
             profile.first_name = form.cleaned_data['first_name']
             profile.last_name = form.cleaned_data['last_name']
             profile.birthday = form.cleaned_data['birthday']
