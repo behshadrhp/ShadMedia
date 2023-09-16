@@ -7,8 +7,10 @@ from . import views
 urlpatterns = [
     # home page
     path('', views.HomeView.as_view(), name='home'),
-    # dashboard
+    # dashboard page
     path('account/dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    # profile page
+    path('account/profile/', views.ProfileView.as_view(), name='profile'),
     # authentication page
     path('account/register/', views.RegisterView.as_view(), name='register'),
     path('account/login/', views.LoginView.as_view(), name='login'),

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, ProfileForm
 
 
 class HomeView(View):
@@ -25,6 +25,37 @@ class DashboardView(View):
             return render(request, 'account/dashboard.html', context)
         else:
             return redirect('login')
+
+
+class ProfileView(View):
+    '''This class is for update profile account.'''
+
+    def get(self, request):
+        form = ProfileForm(instance=request.user.profile)
+
+        context = {'form': form}
+        return render(request, 'account/profile.html', context)
+
+    def post(self, request):
+        form = ProfileForm(request.POST)
+
+        if form.is_valid():
+            # dont save -> apply change
+            profile = form.save(commit=False)
+            # apply change avatar
+            profile = request.user.profile
+            profile.avatar = form.cleaned_data['avatar']
+            profile.first_name = form.cleaned_data['first_name']
+            profile.last_name = form.cleaned_data['last_name']
+            profile.birthday = form.cleaned_data['birthday']
+            # save user
+            profile.save()
+            messages.success(request, 'Your profile has been updated')
+        else:
+            messages.error(request, 'There was a problem updating your profile. Please try again later')
+
+        context = {'form': form}
+        return render(request, 'account/profile.html', context)
 
 
 class RegisterView(View):
@@ -75,6 +106,7 @@ class RegisterView(View):
             return render(request, 'account/register.html', context)
         else:
             return redirect('home')
+
 
 class LoginView(View):
     '''This class is for Authentication Login Account.'''

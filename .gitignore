@@ -20,7 +20,7 @@
 
 # uploads media
 media/*
-!media/default/
+!media/img/
 
 # static files
 staticfiles/*
