@@ -158,3 +158,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
+
+# َSet user model
+AUTH_USER_MODEL = 'account.User'
