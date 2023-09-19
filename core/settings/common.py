@@ -111,6 +111,9 @@ AUTHENTICATION_BACKENDS = [
 
     # Django ModelBackend is the default authentication backend.
     'django.contrib.auth.backends.ModelBackend',
+
+    # Custom Authentication -> EmailAuthBackend
+    'account.authentication.EmailAuthBackend',
 ]
 
 AXES_FAILURE_LIMIT: 3 # how many times a user can fail a login
