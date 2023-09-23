@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Internal App
     'account',
+    'image',
     # External App
     'debug_toolbar',
     'axes',
