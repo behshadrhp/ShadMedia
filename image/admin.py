@@ -8,7 +8,7 @@ class ImageAdmin(admin.ModelAdmin):
     image admin panel.
     '''
 
-    list_display = ['owner', 'title']
+    list_display = ['owner', 'title', 'create_at']
     list_filter = ['owner', 'update_at']
     search_fields = ['title__icontains', 'description__icontains']
     prepopulated_fields = {
