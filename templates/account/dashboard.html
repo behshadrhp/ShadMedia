@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block title %}Dashboard{% endblock title %}
 
@@ -10,33 +11,16 @@
       <div class="position-sticky">
         <!-- Logo and Site Name -->
         <div class="py-4 text-center">
-          <h2>BookShare</h2>
+          <h2>ShadMedia</h2>
         </div>
 
         <!-- Sidebar Navigation -->
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">
-              <i class="fas fa-home"></i>
-              Dashboard
-            </a>
-          </li>
+          <!-- ... (previous sidebar items) -->
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <i class="fas fa-book"></i>
-              My Books
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile' %}">
-              <i class="fas fa-user"></i>
-              Profile
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="fas fa-cogs"></i>
-              Settings
+              <i class="fas fa-image"></i>
+              My Images
             </a>
           </li>
         </ul>
@@ -47,9 +31,9 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <!-- User Information Section -->
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Welcome, [Username]</h1>
+        <h1 class="h2">Welcome, {{ request.user.username }}</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-sm btn-primary">
             Add Book
           </button>
         </div>
@@ -62,7 +46,7 @@
             <div class="card-body">
               <h2 class="card-title">About the Site</h2>
               <p class="card-text">
-                BookShare is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!
+                ShadMedia is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!
               </p>
             </div>
           </div>
@@ -74,6 +58,17 @@
         <div class="col-12">
           <h2>My Books</h2>
           <!-- Add content related to user's books -->
+        </div>
+      </div>
+
+      <!-- Additional Content -->
+      <div class="row mt-4">
+        <div class="col-12">
+          {% with total_images_created=request.user.images_created.count %}
+          <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
+          {% endwith %}
+          <p>Drag the following button to your bookmarks toolbar to bookmark images from other websites → <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="btn btn-sm btn-outline-primary">Bookmark it</a></p>
+          <p>You can also <a href="{% url 'profile' %}" class="btn btn-sm btn-secondary">edit your profile</a> or <a href="{% url 'password_change' %}" class="btn btn-sm btn-secondary">change your password</a></p>
         </div>
       </div>
     </main>

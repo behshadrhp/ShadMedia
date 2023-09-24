@@ -14,7 +14,7 @@ class ImageAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ('title',)
     }
-    fields = ['image', 'title', 'slug', 'description', 'users_like']
+    fields = ['image', 'title', 'slug', 'url', 'description', 'users_like']
     readonly_fields = ['owner']
 
      # save owner
