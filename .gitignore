@@ -24,3 +24,7 @@ media/*
 
 # static files
 staticfiles/*
+
+# cert And Key
+*.crt
+*.key
