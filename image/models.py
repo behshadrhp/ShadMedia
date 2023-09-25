@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 User = get_user_model()
 
 class Image(models.Model):
     '''
-    Image post.
+    This class is for creating post images.
     '''
 
     # initial information
@@ -34,6 +35,9 @@ class Image(models.Model):
         if not self.slug or self.slug != self.title:
             self.slug = slugify(self.title, allow_unicode=True)
         super(Image, self).save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse('image:image_detail', kwargs={'pk': self.pk, 'slug': self.slug})
     
     def __str__(self):
         return self.title

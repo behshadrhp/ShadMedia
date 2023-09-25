@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import ImageCreateForm
 from django.contrib import messages
+
+from .models import Image
+from .forms import ImageCreateForm
+
 
 
 class ImageView(View):
@@ -36,3 +39,15 @@ class ImageView(View):
             return render(request, 'image/create.html', context)
         else:
             return redirect('login')
+
+
+class ImageDetailView(View):
+    '''
+    Show detail images.
+    '''
+    
+    def get(self, request, pk, slug):
+        image = get_object_or_404(Image, id=pk, slug=slug)
+
+        context = {'image': image}
+        return render(request, 'image/detail.html', context)

@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'account',
     'image',
     # External App
+    'easy_thumbnails',
     'django_extensions',
     'debug_toolbar',
     'axes',
