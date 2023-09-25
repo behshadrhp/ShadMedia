@@ -3,40 +3,137 @@
 {% block title %}{{ image.title }}{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+  <div class="container my-5">
     <div class="row">
-        <div class="col-md-6">
+      <div class="col-md-6">
+        <div class="image-container">
             {% load thumbnail %}
-            <a href="{{ image.image.url }}">
-            <img src="{% thumbnail image.image 500x0 %}" class="img-fluid image-detail">
-            </a>
+          <a href="{{ image.image.url }}">
+            <img src="{% thumbnail image.image 500x0 %}" class="img-fluid">
+          </a>
         </div>
-        <div class="col-md-6">
-            <h1>{{ image.title }}</h1>
-            <div class="image-info mt-3">
-                <div>
-                    <span class="count">
-                        {% with total_likes=image.users_like.count %}
-                        <button class="btn btn-sm btn-outline-secondary mt-3">{{ total_likes }} like{{ total_likes|pluralize }}</button>
-                        {% endwith %}
-                    </span>
-                </div>
-                <br>
-                {{ image.description|linebreaks }}
+      </div>
+      <div class="col-md-6">
+        <div class="image-info">
+          <h1>{{ image.title }}</h1>
+          {% with total_likes=image.users_like.count users_like=image.users_like.all %}
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="count">
+                <span class="total">{{ total_likes }}</span>
+                like{{ total_likes|pluralize }}
+              </span>
+              <a href="#" data-id="{{ image.id }}" data-action="{% if request.user in users_like %}un{% endif %}like"
+                class="like btn btn-primary">
+                {% if request.user not in users_like %}
+                  Like
+                {% else %}
+                  Unlike
+                {% endif %}
+              </a>
             </div>
-            <div class="image-likes mt-3">
-                {% for user in image.users_like.all %}
-                    <div class="d-flex align-items-center mb-2">
-                        {% if user.profile.photo %}
-                            <img src="{{ user.profile.photo.url }}" class="mr-2 rounded-circle" style="max-width: 50px;">
-                        {% endif %}
-                        <p class="mb-0">{{ user.first_name }}</p>
-                    </div>
-                {% empty %}
-                    <p>Nobody likes this image yet.</p>
-                {% endfor %}
-            </div>
+          {% endwith %}
+          <p class="mt-3">{{ image.description|linebreaks }}</p>
         </div>
+      </div>
     </div>
-</div>
+    <div class="row mt-5" style="margin-right: 100%;">
+      <div class="col-md-6 offset-md-3">
+        <div class="image-likes">
+          {% for user in users_like %}
+            <div class="d-flex align-items-center mb-2">
+              {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" class="rounded-circle" width="50" height="50">
+              {% else %}
+                <div class="placeholder rounded-circle"></div>
+              {% endif %}
+              <p class="ml-2 mb-0">{{ user.username }}</p>
+            </div>
+            {% empty %}
+            <p>Nobody likes this image yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    .image-container {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+    }
+
+    .image-info {
+      text-align: left;
+    }
+
+    .count {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .like {
+      font-size: 16px;
+    }
+
+    .image-likes img {
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .placeholder {
+      width: 50px;
+      height: 50px;
+      background-color: #ccc;
+      border-radius: 50%;
+    }
+  </style>
+{% endblock %}
+
+
+{% block domready %}
+  const url = '{% url "image:image_like" %}';
+  var options = {
+    method: 'POST',
+    headers: {'X-CSRFToken': csrftoken},
+    mode: 'same-origin'
+  }
+
+  document.querySelector('a.like')
+          .addEventListener('click', function(e){
+    e.preventDefault();
+    var likeButton = this;
+
+    // add request body
+    var formData = new FormData();
+    formData.append('id', likeButton.dataset.id);
+    formData.append('action', likeButton.dataset.action);
+    options['body'] = formData;
+
+    // send HTTP request
+    fetch(url, options)
+    .then(response => response.json())
+    .then(data => {
+      if (data['status'] === 'ok')
+      {
+        var previousAction = likeButton.dataset.action;
+
+        // toggle button text and data-action
+        var action = previousAction === 'like' ? 'unlike' : 'like';
+        likeButton.dataset.action = action;
+        likeButton.innerHTML = action;
+
+        // update like count
+        var likeCount = document.querySelector('span.count .total');
+        var totalLikes = parseInt(likeCount.innerHTML);
+        likeCount.innerHTML = previousAction === 'like' ? totalLikes + 1 : totalLikes - 1;
+      }
+    })
+  });
 {% endblock %}
