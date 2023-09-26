@@ -18,8 +18,10 @@
                         {% if field.name != 'url' %}
                             <div class="mb-3 mb-form">
                                 {{ field.label_tag }}
-                                <br><br>
                                 {{ field }}
+                                {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                                {% endif %}
                                 {% if field.help_text %}
                                     <small class="form-text text-muted">{{ field.help_text }}</small>
                                 {% endif %}

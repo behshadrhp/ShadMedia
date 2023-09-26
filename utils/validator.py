@@ -10,3 +10,8 @@ email_regex = RegexValidator(
     regex=r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
     message='Your email is not valid'
 )
+
+character_regex = RegexValidator(
+    regex=r'^[a-zA-Z0-9\s]{6,30}$',
+    message='Only English letters, numbers, and spaces are allowed, and the allowed characters are between 6 and 30',
+)

@@ -1,7 +1,9 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.exceptions import ValidationError
 
 from .models import Image
 from .forms import ImageCreateForm
@@ -35,6 +37,8 @@ class ImageView(View):
                 messages.success(request, 'Image added successfully')
                 # redirect to new created item detail view
                 return redirect(new_image.get_absolute_url())
+            else:
+                messages.error(request, 'Solve the problem')
 
             context = {'form': form, 'section': 'image'}
             return render(request, 'image/create.html', context)
@@ -77,3 +81,37 @@ class ImageLikeView(View):
             return JsonResponse({'status': 'error'})
         else:
             return redirect('login')
+
+
+class ImageListView(View):
+    '''
+    This class is for show image list.
+    '''
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            images = Image.objects.all()
+            paginator = Paginator(images, 8)
+            page = request.GET.get('page')
+            images_only = request.GET.get('images_only')
+
+            try:
+                images = paginator.page(page)
+            except PageNotAnInteger:
+                # if page is not an integer deliver the first page
+                images = paginator.page(1)
+            except EmptyPage:
+                if images_only:
+                    # if AJAX request and page out of range
+                    # return an empty page
+                    return HttpResponse('')
+                # if page out of range return list page of results
+                images = paginator.page(paginator.num_pages)
+            if images_only:
+                context = {'section': images, 'images': images}
+                return render(request, 'image/list_images.html', context)
+
+            context = {'section': images, 'images': images}
+            return render(request, 'image/list.html', context)
+        else:
+            return redirect('login') 

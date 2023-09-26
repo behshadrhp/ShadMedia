@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.urls import reverse
 
+from utils.validator import character_regex
 
 User = get_user_model()
 
@@ -13,7 +14,7 @@ class Image(models.Model):
 
     # initial information
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, unique=True, validators=[character_regex])
     slug = models.SlugField(max_length=200, blank=True)
     url = models.URLField(max_length=2000)
     image = models.ImageField(upload_to='image/%Y/%m/%d/')
