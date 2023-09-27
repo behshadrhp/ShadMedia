@@ -13,6 +13,9 @@
             <h5 class="card-title">
               <a href="{{ image.get_absolute_url }}" class="text-decoration-none text-dark">{{ image.title }}</a>
             </h5>
+            <p class='date text-muted'>
+              Published {{ image.owner|date:"F d, Y" }} by <a href="{% url "user_detail" image.owner.username %}" style="text-decoration: none;">{{ image.owner }}</a>
+            </p>
           </div>
         </div>
       </div>

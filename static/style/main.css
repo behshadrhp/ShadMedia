@@ -126,3 +126,8 @@ textarea {
     font-size: 16px;
     transition: border-color 0.2s ease-in-out;
 }
+
+.user-profile-detail {
+    width: 300px;
+    height: 300px;
+}
