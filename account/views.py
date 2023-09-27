@@ -1,11 +1,13 @@
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
 
 from .forms import LoginForm, RegisterForm, ProfileForm
 
+
+User = get_user_model()
 
 class HomeView(View):
     '''This class is for return home page.'''
@@ -43,7 +45,11 @@ class ProfileView(View):
             profile = form.save(commit=False)
             # apply change avatar
             profile = request.user.profile
-            profile.avatar = request.FILES['avatar']
+
+            # if avatar is not empty
+            if 'avatar' in request.FILES:
+                profile.avatar = request.FILES['avatar']
+
             profile.first_name = form.cleaned_data['first_name']
             profile.last_name = form.cleaned_data['last_name']
             profile.birthday = form.cleaned_data['birthday']
@@ -184,5 +190,35 @@ class PasswordChangeView(View):
                 return redirect('dashboard')
             else:
                 messages.error(request, 'Please correct the error  below')
+        else:
+            return redirect('login')
+
+
+class UserListView(View):
+    '''
+    This class is for listing user account.
+    '''
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            users = User.objects.filter(is_active=True)
+            
+            context = {'section': 'people', 'users': users}
+            return render(request, 'account/user/list.html', context)
+        else:
+            return redirect('login')
+        
+
+class UserDetailView(View):
+    '''
+    This class is for review detail user account.
+    '''
+
+    def get(self, request, username):
+        if request.user.is_authenticated:
+            user = get_object_or_404(User, username=username, is_active=True)
+            
+            context = {'section': 'people', 'user': user}
+            return render(request, 'account/user/detail.html', context)
         else:
             return redirect('login')

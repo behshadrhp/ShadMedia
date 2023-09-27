@@ -4,74 +4,57 @@
 {% block title %}Dashboard{% endblock title %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container">
   <div class="row">
-    <!-- Sidebar -->
-    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-      <div class="position-sticky">
-        <!-- Logo and Site Name -->
-        <div class="py-4 text-center">
-          <h2>ShadMedia</h2>
-        </div>
-
-        <!-- Sidebar Navigation -->
-        <ul class="nav flex-column">
-          <!-- ... (previous sidebar items) -->
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="fas fa-image"></i>
-              My Images
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <!-- User Information Section -->
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Welcome, {{ request.user.username }}</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <button type="button" class="btn btn-sm btn-primary">
-            Add Book
-          </button>
+    <div class="col-md-3">
+      <br>
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          <h5 class="card-title">User Information</h5>
+          <p class="card-text">Welcome, {{ request.user.username }}</p>
+          <a href="{% url 'profile' %}" class="btn btn-primary">View Profile</a>
         </div>
       </div>
-
-      <!-- About Section -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="card-title">About the Site</h2>
-              <p class="card-text">
-                ShadMedia is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!
-              </p>
-            </div>
-          </div>
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title">Navigation</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a href="{% url 'password_change' %}" class="nav-link">Change Password</a></li>
+          </ul>
         </div>
       </div>
-
-      <!-- Books Section -->
-      <div class="row mt-4">
-        <div class="col-12">
-          <h2>My Books</h2>
+    </div>
+    <div class="col-md-9">
+      <br>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">About the Site</h5>
+          <p class="card-text">ShadMedia is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">My Books</h5>
           <!-- Add content related to user's books -->
         </div>
       </div>
-
-      <!-- Additional Content -->
-      <div class="row mt-4">
-        <div class="col-12">
+      <br>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">My Permission</h5>
+          <!-- Add content related to user's books -->
+        </div>
+      </div>
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">Additional Content</h5>
           {% with total_images_created=request.user.images_created.count %}
           <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
           {% endwith %}
           <p>Drag the following button to your bookmarks toolbar to bookmark images from other websites → <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="btn btn-sm btn-outline-primary">Bookmark it</a></p>
-          <p>You can also <a href="{% url 'profile' %}" class="btn btn-sm btn-secondary">edit your profile</a> or <a href="{% url 'password_change' %}" class="btn btn-sm btn-secondary">change your password</a></p>
         </div>
       </div>
-    </main>
+    </div>
   </div>
 </div>
 {% endblock content %}

@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+{% load thumbnail %}
+
+{% block title %}People{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">People</h1>
+    <div class="row">
+      {% for user in users %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <a href="{% url "user_detail" user.username %}" style="text-decoration: none;">
+            <div class="card border-0 shadow">
+                <div class="d-flex justify-content-center">
+                  <img src="{{ user.profile.avatar.url }}" class="card-img-top rounded-circle img-fluid" alt="Avatar" style="width: 150px; height: 150px;">
+                </div>
+              <div class="card-body text-center">
+                <b class="card-text">{{user.username}}</b>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

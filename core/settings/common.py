@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.urls import reverse_lazy
 from django.contrib import messages
 
 # jazzmin imported settings configuration
@@ -164,3 +165,8 @@ MESSAGE_TAGS = {
 
 # َSet user model
 AUTH_USER_MODEL = 'account.User'
+
+# Set user absolute url
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda user: reverse_lazy('user_detail', args=[user.username])
+}

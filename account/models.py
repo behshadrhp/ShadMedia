@@ -1,7 +1,11 @@
 from uuid import uuid4
+
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
+from django.urls import reverse
+
 from utils import validator
 
 
@@ -53,6 +57,9 @@ class User(AbstractUser):
         self.email = self.email.lower()
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('user_detail', args=[self.username])
+
 
 class Profile(models.Model):
     '''This class is Profile set for acount.'''
@@ -82,3 +89,38 @@ class Profile(models.Model):
                     existing.avatar.delete(save=False)
             
         super().save(*args, **kwargs)
+
+
+class Contact(models.Model):
+    '''
+    This class is for contact user with other users.
+    '''
+
+    # users relations
+    user_from = models.ForeignKey('User', related_name='rel_from_set', on_delete=models.CASCADE)
+    user_to = models.ForeignKey('User', related_name='rel_to_set', on_delete=models.CASCADE)
+
+    # create at
+    create_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['-create_at'])
+        ]
+        ordering = ['-create_at']
+
+    def __str__(self):
+        return f'{self.user_from} follows {self.user_to}'
+
+
+# Add following fields to user dynamically
+user_model = get_user_model()
+user_model.add_to_class(
+    'following', 
+    models.ManyToManyField(
+        'self',
+        through=Contact,
+        related_name='followers',
+        symmetrical=False
+    )
+)
