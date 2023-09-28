@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 
+from utils.actions import create_action
 from image.models import Image
 from .forms import LoginForm, RegisterForm, ProfileForm
 from .models import Contact
@@ -89,6 +90,7 @@ class RegisterView(View):
                 new_user.set_password(form.cleaned_data['password2'])
                 # save user
                 new_user.save()
+                create_action(new_user, 'has create an account')
                 messages.success(request, 'Well done, created account!')
 
                 # login to account
@@ -242,6 +244,7 @@ class UserFollowView(View):
                     user = User.objects.get(id=user_id)
                     if action == 'follow':
                         Contact.objects.get_or_create(user_from=request.user, user_to=user)
+                        create_action(request.user, 'is following', user)
                     else:
                         Contact.objects.filter(user_from=request.user, user_to=user).delete()
                     return JsonResponse({'status': 'ok'})

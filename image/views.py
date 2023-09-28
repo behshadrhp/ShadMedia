@@ -3,11 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.exceptions import ValidationError
 
+from utils.actions import create_action
 from .models import Image
 from .forms import ImageCreateForm
-
 
 
 class ImageView(View):
@@ -34,6 +33,7 @@ class ImageView(View):
                 # assign current user to the item
                 new_image.owner = request.user
                 new_image.save()
+                create_action(request.user, 'Bookmarked Image', new_image)
                 messages.success(request, 'Image added successfully')
                 # redirect to new created item detail view
                 return redirect(new_image.get_absolute_url())
@@ -73,6 +73,7 @@ class ImageLikeView(View):
                     image = Image.objects.get(id=image_id)
                     if action == 'like':
                         image.users_like.add(request.user)
+                        create_action(request.user, 'likes', image)
                     else:
                         image.users_like.remove(request.user)
                     return JsonResponse({'status': 'ok'})
