@@ -20,6 +20,7 @@ urlpatterns = [
     path(f'{ADMIN_DIRECTORY}/', admin.site.urls),
     path('', include('account.urls')),
     path('images/', include('image.urls', namespace='images')),
+    path('actions/', include('action.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
