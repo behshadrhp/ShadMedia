@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import JsonResponse
 
+from action.models import Action
 from utils.actions import create_action
 from image.models import Image
 from .forms import LoginForm, RegisterForm, ProfileForm
@@ -26,7 +27,17 @@ class DashboardView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            context = {'section': 'dashboard'}
+            # display all actions by default
+            actions = Action.objects.exclude(owner=request.user)
+            following_ids = request.user.following.values_list('id', flat=True)
+
+            if following_ids:
+                # if user is following others, retrieve only their actions
+                actions = actions.filter(owner_id__in=following_ids)
+            
+            actions = actions.select_related('owner', 'owner__profile').prefetch_related('target')[:10]
+
+            context = {'section': 'dashboard', 'actions': actions}
             return render(request, 'account/dashboard.html', context)
         else:
             return redirect('login')

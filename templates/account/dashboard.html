@@ -4,57 +4,57 @@
 {% block title %}Dashboard{% endblock title %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-3">
-      <br>
-      <div class="card mb-4">
-        <div class="card-body text-center">
-          <h5 class="card-title">User Information</h5>
-          <p class="card-text">Welcome, {{ request.user.username }}</p>
-          <a href="{% url 'profile' %}" class="btn btn-primary">View Profile</a>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">User Information</h5>
+                    <p class="card-text">Welcome, {{ request.user.username }}</p>
+                    <a href="{% url 'profile' %}" class="btn btn-primary">View Profile</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Navigation</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="{% url 'password_change' %}" class="nav-link">Change Password</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-body text-center">
-          <h5 class="card-title">Navigation</h5>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><a href="{% url 'password_change' %}" class="nav-link">Change Password</a></li>
-          </ul>
+        <div class="col-md-9">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">About the Site</h5>
+                    <p class="card-text">ShadMedia is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!</p>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Additional Content</h5>
+                    {% with total_images_created=request.user.images_created.count %}
+                    <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
+                    {% endwith %}
+                    <p>Drag the following button to your bookmarks toolbar to bookmark images from other websites → <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="btn btn-sm btn-outline-primary">Bookmark it</a></p>
+                </div>
+            </div>
+            
+            {% if actions %}
+              <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">What's happening</h5>
+                    <div class="list-group" id="action-list">
+                        {% for action in actions %}
+                            <div class="list-group-item">
+                                {% include "action/detail.html" %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
-      </div>
     </div>
-    <div class="col-md-9">
-      <br>
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">About the Site</h5>
-          <p class="card-text">ShadMedia is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">My Books</h5>
-          <!-- Add content related to user's books -->
-        </div>
-      </div>
-      <br>
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">My Permission</h5>
-          <!-- Add content related to user's books -->
-        </div>
-      </div>
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">Additional Content</h5>
-          {% with total_images_created=request.user.images_created.count %}
-          <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
-          {% endwith %}
-          <p>Drag the following button to your bookmarks toolbar to bookmark images from other websites → <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="btn btn-sm btn-outline-primary">Bookmark it</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 {% endblock content %}

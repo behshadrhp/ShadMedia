@@ -1,0 +1,38 @@
+{% with user=action.user profile=action.user.profile %}
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-2">
+            <div class="images">
+                {% if profile.avatar %}
+                    <a href="{{ user.get_absolute_url }}">
+                        <img src="{{ profile.avatar.url }}" alt="{{ user.get_full_name }}" class="img-fluid">
+                    </a>
+                {% endif %}
+                {% if action.target %}
+                    {% with target=action.target %}
+                        {% if target.image %}
+                            <a href="{{ target.get_absolute_url }}">
+                                <img src="{{ target.image.url }}" class="img-fluid">
+                            </a>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="card-body">
+                <p class="card-text">
+                    <small class="text-muted">{{ action.created|timesince }} ago</small><br>
+                    <a href="{{ user.get_absolute_url }}">{{ user.first_name }}</a>
+                    {{ action.verb }}
+                    {% if action.target %}
+                        {% with target=action.target %}
+                            <a href="{{ target.get_absolute_url }}">{{ target }}</a>
+                        {% endwith %}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}
