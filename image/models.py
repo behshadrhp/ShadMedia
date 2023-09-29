@@ -20,6 +20,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to='image/%Y/%m/%d/')
     description = models.TextField(blank=True)
     users_like = models.ManyToManyField(User, related_name='images_liked', blank=True)
+    total_like = models.PositiveIntegerField(default=0)
 
     # create at & update at
     create_at = models.DateTimeField(auto_now_add=True)
@@ -27,7 +28,8 @@ class Image(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=['-create_at'])
+            models.Index(fields=['-create_at']),
+            models.Index(fields=['total_like'])
         ]
         ordering = ['-update_at', '-create_at']
 
