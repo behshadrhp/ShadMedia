@@ -171,3 +171,8 @@ AUTH_USER_MODEL = 'account.User'
 ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda user: reverse_lazy('user_detail', args=[user.username])
 }
+
+# Redis settings configuration
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0

@@ -22,6 +22,9 @@
                 <span class="total">{{ total_likes }}</span>
                 like{{ total_likes|pluralize }}
               </span>
+              <span class="count">
+                <span class="total">{{ total_views }} view{{ total_views|pluralize }}</span>
+              </span>
               <a href="#" data-id="{{ image.id }}" data-action="{% if request.user in users_like %}un{% endif %}like"
                 class="like btn btn-primary">
                 {% if request.user not in users_like %}
@@ -53,45 +56,6 @@
       </div>
     </div>
   </div>
-  <style>
-    .image-container {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .image-container img {
-      width: 100%;
-      height: auto;
-    }
-
-    .image-info {
-      text-align: left;
-    }
-
-    .count {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .like {
-      font-size: 16px;
-    }
-
-    .image-likes img {
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    .placeholder {
-      width: 50px;
-      height: 50px;
-      background-color: #ccc;
-      border-radius: 50%;
-    }
-  </style>
 {% endblock %}
 
 

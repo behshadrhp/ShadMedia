@@ -3,11 +3,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.conf import settings
+
+import redis
 
 from utils.actions import create_action
 from .models import Image
 from .forms import ImageCreateForm
 
+
+redis_db = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB)
 
 class ImageView(View):
     '''
@@ -55,7 +60,10 @@ class ImageDetailView(View):
         image = get_object_or_404(Image, id=pk, slug=slug)
         users_like = image.users_like.all()
 
-        context = {'image': image, 'users_like': users_like}
+        # increment total image view by 1
+        total_views = redis_db.incr(f'image:{image.id}:views')
+
+        context = {'image': image, 'users_like': users_like, 'total_views': total_views}
         return render(request, 'image/detail.html', context)
 
 
