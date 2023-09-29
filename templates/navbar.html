@@ -19,11 +19,10 @@
             <a class="nav-link" href="{% url 'images:image_list' %}">Image</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'user_list' %}">People</a>
+            <a class="nav-link" href="{% url 'images:image_ranking' %}">Most Popular</a>
           </li>
-        {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Account</a>
+            <a class="nav-link" href="{% url 'user_list' %}">People</a>
           </li>
         {% endif %}
         <li class="nav-item">

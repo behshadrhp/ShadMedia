@@ -62,6 +62,8 @@ class ImageDetailView(View):
 
         # increment total image view by 1
         total_views = redis_db.incr(f'image:{image.id}:views')
+        # increment image ranking by 1
+        redis_db.zincrby('image_ranking', 1, image.id)
 
         context = {'image': image, 'users_like': users_like, 'total_views': total_views}
         return render(request, 'image/detail.html', context)
@@ -124,3 +126,23 @@ class ImageListView(View):
             return render(request, 'image/list.html', context)
         else:
             return redirect('login') 
+
+
+class ImageRankingView(View):
+    '''
+    This class is for ranking images.
+    '''
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            # get image ranking directory
+            image_ranking = redis_db.zrange('image_ranking', 0, 1, desc=True)[:10]
+            image_ranking_ids = [int(id) for id in image_ranking]
+            # get most viewed images
+            most_viewed = list(Image.objects.filter(id__in=image_ranking_ids))
+            most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+
+            context = {'section': 'images', 'most_viewed': most_viewed}
+            return render(request, 'image/ranking.html', context)
+        else:
+            return redirect('login')

@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+
+{% block title %}Most Popular{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        {% if most_viewed %}
+            <h1 class="mb-4">The most popular images</h1>
+            <ol>
+                {% for image in most_viewed %}
+                    <li class="mb-3">
+                        <a href="{{ image.get_absolute_url }}" class="text-decoration-none">
+                            {{ image.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p>Nothing to show :)</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
