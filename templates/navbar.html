@@ -32,7 +32,6 @@
       </ul>
       <div id="userActions" class="d-flex">
         {% if user.is_authenticated %}
-          <button class="btn btn-secondary btn-nav" disabled>{{ user.get_username }}</button>
           <a href="{% url 'logout' %}"><button class="btn btn-danger btn-nav">Logout</button></a>
         {% else %}
           <a href="{% url 'register' %}"><button class="btn btn-secondary btn-nav">Register</button></a>

@@ -46,7 +46,7 @@
               {% else %}
                 <div class="placeholder rounded-circle"></div>
               {% endif %}
-              <p class="ml-2 mb-0">{{ user.username }}</p>
+              <p class="ml-2 mb-0"><a href="{% url "user_detail" user.username %}" style="text-decoration: none;color: black;">{{ user.username }}</a></p>
             </div>
           {% endfor %}
         </div>
