@@ -31,7 +31,7 @@ class UserAdmin(admin.ModelAdmin):
           return False
     
     def has_delete_permission(self, request: HttpRequest, obj=None):
-          return False
+          return True
 
     def has_change_permission(self, request: HttpRequest, obj=None):
         if request.user.is_superuser and obj is not None and not obj.is_superuser:
@@ -59,7 +59,7 @@ class ProfileAdmin(admin.ModelAdmin):
           return False
     
     def has_delete_permission(self, request: HttpRequest, obj=None):
-          return False
+          return True
 
     def has_change_permission(self, request: HttpRequest, obj=None):
 
