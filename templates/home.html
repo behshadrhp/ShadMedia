@@ -1,36 +1,34 @@
 {% extends 'main.html' %}
 
-{% block title %}ShadMedia{% endblock title %}
+{% block title %}ShadMedia - Share & Discover{% endblock title %}
 
 {% block content %}
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-12 text-center">
-        <h2 class="mb-3">Explore the World in a Different Way</h2>
-        <p class="lead mb-5">Discover the realm of English literature with this captivating book.</p>
+        <h1 class="display-4 mb-4">Welcome to ShadMedia</h1>
+        <p class="lead mb-5">Explore and share your world through images and bookmarks.</p>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6 order-md-2 text-center">
-        <h1 class="mb-4">The Journey of Knowledge</h1>
-        <p class="lead mb-4">Embark on an extraordinary journey through the realms of English literature, from classic novels to modern masterpieces.</p>
-        <h3>About the Book</h3>
-        <p class="mb-4">This book takes you on an incredible journey through the realms of English literature, from classic novels to modern masterpieces.</p>
-        <h3>Key Features</h3>
-        <ul class="list-unstyled mb-4">
-          <li>Exploration of timeless literary works</li>
-          <li>Insightful commentary and analysis</li>
-          <li>Showcases diverse voices in English literature</li>
-          <li>Engaging and thought-provoking</li>
-        </ul>
-        <a href="/purchase" class="btn btn-primary">Buy Now</a>
+      <div class="col-md-6 text-center">
+        <div class="bg-primary text-white p-5 rounded-circle mx-auto mb-4" style="max-width: 200px;">
+          <span style="font-size: 3rem; font-weight: bold;">📷</span>
+        </div>
+        <h2 class="mb-4">Share Images</h2>
+        <p class="lead">Upload and showcase your most cherished images. Connect with kindred spirits who appreciate visual storytelling.</p>
       </div>
-      <div class="col-md-6 order-md-1 text-center">
+      <div class="col-md-6 text-center">
         <div class="bg-primary text-white p-5 rounded-circle mx-auto mb-4" style="max-width: 200px;">
           <span style="font-size: 3rem; font-weight: bold;">📚</span>
         </div>
-        <h2 class="mb-4">The Journey of Knowledge</h2>
-        <p class="lead">Embark on an extraordinary journey through the realms of English literature, from classic novels to modern masterpieces.</p>
+        <h2 class="mb-4">Save Bookmarks</h2>
+        <p class="lead">Bookmark your beloved webpages and articles. Organize your digital collection for effortless access and sharing.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a href="{% url "register" %}" class="btn btn-primary btn-lg">Get Started</a>
       </div>
     </div>
   </div>

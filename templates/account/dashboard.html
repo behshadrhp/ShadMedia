@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
 
-{% block title %}Dashboard{% endblock title %}
+{% block title %}Dashboard - ShadMedia{% endblock title %}
 
 {% block content %}
 <div class="container py-5">
@@ -9,9 +9,9 @@
         <div class="col-md-3">
             <div class="card mb-4">
                 <div class="card-body text-center">
-                    <h5 class="card-title">User Information</h5>
+                    <h5 class="card-title">Profile</h5>
                     <p class="card-text">Welcome, {{ request.user.username }}</p>
-                    <a href="{% url 'profile' %}" class="btn btn-primary">View Profile</a>
+                    <a href="{% url 'profile' %}" class="btn btn-primary">Edit Profile</a>
                 </div>
             </div>
             <div class="card">
@@ -26,13 +26,13 @@
         <div class="col-md-9">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">About the Site</h5>
-                    <p class="card-text">ShadMedia is a platform dedicated to sharing a wide range of e-books across various genres. Explore our collection and find your next great read!</p>
+                    <h5 class="card-title">About ShadMedia</h5>
+                    <p class="card-text">Welcome to ShadMedia, your platform for sharing and discovering a vast collection of bookmarks from various genres. Dive into our collection and find your next great read!</p>
                 </div>
             </div>
             <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">Additional Content</h5>
+                    <h5 class="card-title">Additional Information</h5>
                     {% with total_images_created=request.user.images_created.count %}
                     <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
                     {% endwith %}
@@ -43,7 +43,7 @@
             {% if actions %}
               <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">What's happening</h5>
+                    <h5 class="card-title">Recent Activities</h5>
                     <div class="list-group" id="action-list">
                         {% for action in actions %}
                             <div class="list-group-item">

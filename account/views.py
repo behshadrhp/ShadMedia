@@ -22,6 +22,14 @@ class HomeView(View):
         return render(request, 'home.html', context)
 
 
+class AboutView(View):
+    '''This class is for return about us page.'''
+
+    def get(self, request):
+        context = {}
+        return render(request, 'about.html', context)
+
+
 class DashboardView(View):
     '''This class is for Dashboard panel.'''
 

@@ -7,6 +7,8 @@ from . import views
 urlpatterns = [
     # home page
     path('', views.HomeView.as_view(), name='home'),
+    # about us page
+    path('about/', views.AboutView.as_view(), name='about'),
     # dashboard page
     path('account/dashboard/', views.DashboardView.as_view(), name='dashboard'),
     # profile page
