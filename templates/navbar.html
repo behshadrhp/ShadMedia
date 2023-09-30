@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url "home" %}">ShadMedia</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'home' %}">Home
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'images:image_list' %}">Image</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'images:image_ranking' %}">Most Popular</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_list' %}">People</a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "about" %}">About</a>
+        </li>
+      </ul>
+      <div id="userActions" class="d-flex">
+        {% if user.is_authenticated %}
+          <a href="{% url 'logout' %}"><button class="btn btn-danger btn-nav">Logout</button></a>
+        {% else %}
+          <a href="{% url 'register' %}"><button class="btn btn-secondary btn-nav">Register</button></a>
+          <a href="{% url 'login' %}"><button class="btn btn-secondary btn-nav">Login</button></a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

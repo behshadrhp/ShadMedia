@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block title %}Logout{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">Logout</h5>
+        <p class="card-text">{{ username }} has been successfully logged out</p>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back Home</a>
+        <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+      </div>
+    </div>
+</div>
+{% endblock content %}

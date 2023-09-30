@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+{% block title %}ShadMedia - Share & Discover{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h1 class="display-4 mb-4">Welcome to ShadMedia</h1>
+        <p class="lead mb-5">Explore and share your world through images and bookmarks.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <div class="bg-primary text-white p-5 rounded-circle mx-auto mb-4" style="max-width: 200px;">
+          <span style="font-size: 3rem; font-weight: bold;">📷</span>
+        </div>
+        <h2 class="mb-4">Share Images</h2>
+        <p class="lead">Upload and showcase your most cherished images. Connect with kindred spirits who appreciate visual storytelling.</p>
+      </div>
+      <div class="col-md-6 text-center">
+        <div class="bg-primary text-white p-5 rounded-circle mx-auto mb-4" style="max-width: 200px;">
+          <span style="font-size: 3rem; font-weight: bold;">📚</span>
+        </div>
+        <h2 class="mb-4">Save Bookmarks</h2>
+        <p class="lead">Bookmark your beloved webpages and articles. Organize your digital collection for effortless access and sharing.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a href="{% url "register" %}" class="btn btn-primary btn-lg">Get Started</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

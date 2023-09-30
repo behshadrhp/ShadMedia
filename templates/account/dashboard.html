@@ -1,0 +1,60 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Dashboard - ShadMedia{% endblock title %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Profile</h5>
+                    <p class="card-text">Welcome, {{ request.user.username }}</p>
+                    <a href="{% url 'profile' %}" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Navigation</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="{% url 'password_change' %}" class="nav-link">Change Password</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">About ShadMedia</h5>
+                    <p class="card-text">Welcome to ShadMedia, your platform for sharing and discovering a vast collection of bookmarks from various genres. Dive into our collection and find your next great read!</p>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Additional Information</h5>
+                    {% with total_images_created=request.user.images_created.count %}
+                    <p>Welcome to your dashboard. You have bookmarked {{ total_images_created }} image{{ total_images_created|pluralize }}.</p>
+                    {% endwith %}
+                    <p>Drag the following button to your bookmarks toolbar to bookmark images from other websites → <a href="javascript:{% include "bookmarklet_launcher.js" %}" class="btn btn-sm btn-outline-primary">Bookmark it</a></p>
+                </div>
+            </div>
+            
+            {% if actions %}
+              <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Activities</h5>
+                    <div class="list-group" id="action-list">
+                        {% for action in actions %}
+                            <div class="list-group-item">
+                                {% include "action/detail.html" %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

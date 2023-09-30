@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="text-center">Create Account</h2>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                  <div class="text-danger">{{ field.errors }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

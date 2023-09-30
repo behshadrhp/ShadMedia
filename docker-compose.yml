@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  postgres_db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: dpage/pgadmin4:7.3
+    container_name: pgadmin
+    depends_on:
+      - postgres_db
+    ports:
+      - "5051:5050"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=root
+      - PGADMIN_LISTEN_PORT=5050
+
+  dj_backend:
+    build: .
+    ports:
+      - "8000:8000"
+    command: bash -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && exec gunicorn core.wsgi:application -b 0.0.0.0:8000 -w 4"
+    volumes:
+      - .:/app/ShadStoretore
+    depends_on:
+      - postgres_db
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings.production
+      - DJANGO_SECRET_KEY=bf#2k4#q3+i)(176xg^^4syb#-n6-e7_pr^5m9=(h2ck_v-vhj
+      - DEBUG=False
+      - DATABASE_URL=postgres://postgres:postgres@postgres_db:5432/postgres
+      - HOST=example.com
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - dj_backend
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

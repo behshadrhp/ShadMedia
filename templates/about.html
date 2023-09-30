@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+
+{% block title %}About Us - ShadMedia{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h1 class="display-4 mb-4">About Us</h1>
+        <p class="lead mb-5">Welcome to ShadMedia, where innovation meets creativity!</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="mb-4">Our Vision</h2>
+        <p class="lead">At ShadMedia, we are passionate about providing a platform for sharing images and bookmarks with the world. Our vision is to create a vibrant and inclusive community of individuals who appreciate visual storytelling and value digital knowledge management.</p>
+      </div>
+      <div class="col-md-6">
+        <h2 class="mb-4">Meet the Founder</h2>
+        <p class="lead">ShadMedia was founded by Behshad Rahmanpour. With a deep love for technology and a commitment to making the internet a more creative and engaging place, Behshad established ShadMedia to bring people together through the power of visual content and curated bookmarks.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Join Us Today</a>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
